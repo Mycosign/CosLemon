@@ -1,0 +1,1051 @@
+<!doctype html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'assetz/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'assetz/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'assetz/css/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assetz/css/owl.theme.default.min.css' %}">
+    <link rel="stylesheet" href="{% static 'assetz/css/style.css' %}">
+    <title>CargoLogistics Pro</title>
+
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'assets/img/logo1.png' %}"></head>
+<body>
+<header>
+
+    <section class="bg-dark py-2 position-relative">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <ul class="nav text-white">
+                        <li class="me-3 border-end border-white pe-3"><i class="fa fa-phone pe-1"></i>+0160184522</li>
+                        <li><i class="fa fa-envelope pe-1"></i>support@cargologistic.online</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <ul class="nav float-end">
+                        <li class="me-3"><a ><i class="fa-brands fa-facebook-f text-white"></i></a></li>
+                        <li class="me-3"><a ><i class="fa-brands fa-twitter text-white"></i></a></li>
+                        <li class="me-3"><a ><i class="fa-brands fa-linkedin-in text-white"></i></a></li>
+                        <li class="me-3"><a ><i class="fa-brands fa-instagram text-white"></i></a></li>
+                        <li class="me-3"><a ><i class="fa-brands fa-square-youtube text-white"></i></a></li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <nav class="navbar navbar-expand-md py-0">
+            <div class="container py-0">
+                <a href="{% url 'home' %}" class="navbar-brand">
+                    <i class="fa fa-2x fa-truck text-color pt-1"></i> <h1 class="float-end display-6 ps-1 text-color fw-bold">Faster</h1>
+                </a>
+                <button type="button" class="navbar-toggler" 
+                data-bs-toggle="collapse" data-bs-target="#MainMenu">
+                    <i class="navbar-toggler-icon"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="MainMenu">
+                    <ul class="navbar-nav mx-auto ">
+                        <li><a href="{% url 'home' %}" class="nav-link bg-color my-nav-link  py-4 px-3 text-white">Home</a></li>
+                        <li><a href="#about" class="nav-link py-4 my-nav-link">About</a></li>
+                        <li><a href="#service" class="nav-link py-4 my-nav-link">Service</a></li>
+
+                        <li><a href="{% url 'accounts:login' %}" class="nav-link py-4 my-nav-link">Sign In</a></li>
+                        <li><a href="#contact" class="nav-link py-4 my-nav-link">Contract</a></li>
+                    </ul>
+                                            
+
+                        
+                </div>
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                    <li><a class="nav-link text-white bg-color px-3" href="{% url 'accounts:logout' %}">Sign Out</a></li>
+                    {% else %}
+                    <li><a class="nav-link text-white bg-color px-3" href="{% url 'accounts:register' %}">Sign Up</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </section>
+</header>
+<!--//banner section-->
+<section class="banner-section" >
+    <div class="container-fluid bg-black h-100 bg-opacity-75">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <form  method="GET" action="{% url 'core:search_courier' %}">
+                    <div class="card card-body top-50 text-center bg-transparent border-0">
+                        <h3 class="text-color fw-bold display-6">Safe & Faster</h3>
+                        <h1 class="fw-bold text-white display-2 mb-4">Logistics service</h1>
+                        <div class="input-group">
+                            <input type="text" name="tracking_id" placeholder="Enter Tracking ID" class="form-control form-control-lg rounded-0" style="width: 100%; padding: 15px; border: 2px solid #3498db; border-radius: 25px; font-size: 16px; font-weight: bold; color: #333; background-color: #ecf0f1; transition: border-color 0.3s, background-color 0.3s; box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1); outline: none;">
+                            <button type="submit" class="btn text-white bg-color rounded-0">Track & trace</button>
+                        </div>
+{% if couriers %}
+    <div class="scroll-message">
+        <h2 class="animated-header">
+            Scroll Down to See Results
+            <i class="fas fa-thumbs-up"></i>
+        </h2>
+        <div class="wave"></div>
+    </div>
+    <div class="courier-results">
+        {% for courier in couriers %}
+            <!-- Add your courier result rendering here -->
+        {% endfor %}
+    </div>
+{% elif couriers %}
+    <h2>No Results Found</h2>
+{% endif %}
+
+<style>
+    /* Add your CSS styles for the scroll message and animation */
+    .scroll-message {
+        text-align: center;
+        margin-top: 20px;
+        background-color: #ff5733; /* Vibrant background color */
+        padding: 10px;
+        position: relative;
+    }
+
+    .animated-header {
+        font-size: 24px;
+        color: #fff; /* White text color for contrast */
+        animation: slideIn 1s ease-in-out infinite alternate;
+    }
+
+    .wave {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 20px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.7), transparent);
+        background-size: 200% 100%;
+        animation: waveAnimation 2s infinite linear;
+    }
+
+    @keyframes slideIn {
+        0% {
+            transform: translateY(-10px);
+            opacity: 0.5;
+        }
+        100% {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes waveAnimation {
+        0% {
+            background-position: 0 0;
+        }
+        100% {
+            background-position: -200% 0;
+        }
+    }
+
+    .no-results {
+        text-align: center;
+        margin-top: 20px;
+        background-color: #e74c3c; /* Vibrant background color for no results */
+        padding: 10px;
+    }
+
+    .no-results h2 {
+        font-size: 24px;
+        color: #fff; /* White text color for contrast */
+    }
+</style>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+        <style>
+            /* ... Your existing styles ... */
+
+            /* ... Your existing styles ... */
+            
+            /* Styling for the refresh button */
+            .refresh-button-container {
+                margin-top: 20px;
+                display: flex;
+                justify-content: center;
+            }
+
+            .refresh-button {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 10px 20px;
+                cursor: pointer;
+                transition: background-color 0.2s ease-in-out;
+            }
+
+            .refresh-button:hover {
+                background-color: #0056b3;
+            }
+            .select2-container--default .select2-selection--single::after {
+                content: "\f0d7"; /* Unicode character for the dropdown icon */
+                font-family: "Font Awesome 5 Free";
+                font-weight: 900;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                position: absolute;
+                pointer-events: none;
+            }
+            .result {
+                border: 1px solid #ccc;
+                padding: 15px;
+                margin-bottom: 30px;
+                background-color: #f9f9f9;
+                border-radius: 8px;
+            }
+
+            .result-heading {
+                text-align: center;
+                margin-bottom: 10px;
+            }
+
+            .result-details {
+                display: grid;
+                gap: 20px;
+            }
+
+            .result-details p {
+                margin: 0;
+            }
+
+            .result-details iframe {
+                width: 100%;
+                height: 200px;
+                border: none;
+            }
+
+            .result-details img {
+                max-width: 100%;
+                height: auto;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }            .copy-link-container {
+                margin-top: 20px;
+                display: flex;
+                align-items: center;
+            }
+
+            .copy-link-input {
+                flex: 1;
+                margin-right: 10px;
+            }
+
+            .copy-link-button {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                padding: 5px 10px;
+                cursor: pointer;
+                transition: background-color 0.2s ease-in-out;
+            }
+
+            .copy-link-button:hover {
+                background-color: #0056b3;
+            }
+            .result {
+                /* ... Your styles ... */
+                /* Add more styles to make it look like a paper receipt */
+                background-color: white;
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            /* Styling for the receipt-like result */
+            .result {
+                /* ... Your styles ... */
+                /* Add more styles to make it look like a paper receipt */
+                background-color: white;
+                border: 1px solid #e0e0e0;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+                border-radius: 8px;
+            }
+
+            .result-heading {
+                text-align: center;
+                margin-bottom: 20px;
+            }
+
+            .result-details {
+                display: grid;
+                gap: 20px;
+            }
+
+            .result-details p {
+                margin: 0;
+            }
+
+            .result-details iframe {
+                width: 100%;
+                height: 200px;
+                border: none;
+            }
+
+            .result-details img {
+                max-width: 100%;
+                height: auto;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+            }
+            .tracking-input:focus {
+                border-color: #1abc9c;
+                background-color: #f5f5f5;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Enhanced box shadow on focus */
+            }
+
+            /* ... Rest of your styles ... */
+        </style>
+
+
+
+
+
+</section>
+
+
+<div class="refresh-button-container">
+    <a href="{% url 'home' %}" class="refresh-button">
+        <i class="fas fa-sync-alt"></i> Click to Refresh
+    </a>
+</div>
+
+            {% if couriers %}
+                {% for courier in couriers %}
+<section class="bg-light" id="get_a_quote">
+    <div  class="container">
+        <div class="row">
+            <div class="col-md-7 py-5">
+                <div class="card card-body h-100 border-0 bg-transparent">
+                    <h6 class="fw-bold text-color">GET A QUOTE</h6>
+                    <div class="result">
+                        <div class="result-heading">
+                            <h3>Receipt</h3>
+                            <p><strong><i class="fas fa-barcode"></i> Tracking ID:</strong> {{ courier.tracking_id }}</p>
+                            <p><strong><i class="fas fa-shipping-fast"></i> Courier Service:</strong> {{ courier.get_service_display }}</p>
+                        </div>
+                        <div class="result-details">
+                            <p><strong><em class="fas fa-user"></em> Name:</strong> {{ courier.name }}</p>
+                            <p><strong><i class="fas fa-user"></i> Sender:</strong> {{ courier.sender }}</p>
+                            <p><strong><i class="fas fa-user"></i> Receiver:</strong> {{ courier.reciever }}</p>
+                            <p><strong><i class="fas fa-phone"></i> Contact Info:</strong> {{ courier.contact_info }}</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> Address:</strong> {{ courier.address }}</p>
+                            <p><strong><i class="fas fa-box"></i> Quantity:</strong> {{ courier.quantity }}</p>
+                            <p><strong><i class="fas fa-money-bill"></i> Price:</strong> ${{ courier.price }}</p>
+                            <p><strong><i class="fas fa-calendar"></i> Date Sent:</strong> {{ courier.date_sent }}</p>
+                            <p><strong><i class="fas fa-calendar-alt"></i> Date Arrival:</strong> {{ courier.date_arrival }}</p>
+                            <p><strong><i class="fas fa-map-marked-alt"></i> Current Location:</strong> {{ courier.current_location }}</p>
+                            <p><strong><i class="fas fa-map-pin"></i> Map Location:</strong></p>
+                            <iframe width="100%" height="300" frameborder="0" style="border:0" src="{{ courier.map_location }}" allowfullscreen></iframe>
+                            <p><strong><i class="fas fa-user"></i> PACKAGE IMAGE:</strong></p>
+                            <img src="{{ courier.avatar.url }}" alt="Avatar">
+                            <p><strong><i class="fas fa-id-card"></i> Photo ID:</strong></p>
+                            <img src="{{ courier.photo_id.url }}" alt="Photo ID">
+                        </div>
+                        <div class="copy-link-container">
+                            <input class="copy-link-input" type="text" value="{{ request.build_absolute_uri }}" readonly>
+                            <button class="copy-link-button" onclick="copyLink(this)">
+                                <i class="fas fa-copy"></i> Copy Link
+                            </button>
+
+                        <script>
+                            function copyLink(button) {
+                                const input = button.previousElementSibling;
+                                input.select();
+                                document.execCommand("copy");
+                                button.textContent = "Copied!";
+                                button.disabled = true;
+                                setTimeout(() => {
+                                    button.textContent = "Copy Link";
+                                    button.disabled = false;
+                                }, 2000);
+                            }
+                        </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+                {% endfor %}
+            {% elif form.is_valid %}
+    <h2>No Results Found</h2>
+{% endif %}
+        </div>
+
+<!--about us-->
+<!--about us-->
+<!--about us-->
+<section class="py-5" id="about">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card border-0">
+                    <div class="row ">
+                        <div class="col-md-5">
+                            <img src="{% static 'assetz/img/about.jpg' %}" class="card-img rounded-0" alt=""/>
+                            <p class="bg-color text-center h2 py-3">25+ Years Experience</p>
+                        </div>
+                        <div class="col-md-7"><div class="card-body pt-5">
+    <h5 class="text-color fw-bold">About us</h5>
+    <h3 class="fw-bold display-5">Trusted & Faster Logistic Service Provider</h3>
+    <p class="text-muted">At CargoLogisticsPro, we're your trusted partner for efficient and reliable cargo management. With years of experience and cutting-edge technology, we simplify logistics, ensuring your shipments reach their destination seamlessly.</p>
+    <a id="playButton" class="btn"><i class="fa-solid fa-circle-play display-3 text-color"></i></a>
+    <span class="fw-bold h5">Play Video</span>
+</div>
+
+<div id="videoModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <div class="video-container">
+            <video id="videoPlayer" controls width="100%" style="max-width: 800px;">
+                <source src="{% static 'logi.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <img src="{% static 'assets/img/logo2.png' %}" alt="Logo" class="logo">
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Styles for the modal popup */
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000; /* Ensure it's above other content */
+    }
+
+    .modal-content {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
+        text-align: center;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        color: #555;
+    }
+
+    /* Styles for the video container */
+    .video-container {
+        position: relative;
+    }
+
+    /* Style for the logo on mobile screens */
+    .logo {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 80px; /* Adjust the width as needed */
+        z-index: 1001;
+    }
+
+    /* Style for the logo on computer screens */
+    @media (min-width: 769px) {
+        .logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px; /* Adjust the width as needed */
+            z-index: 1001; /* Ensure it's above the video */
+        }
+    }
+
+    /* Styles for the play button */
+    #playButton {
+        padding: 10px 20px;
+        font-size: 18px;
+        cursor: pointer;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+    }
+
+    #playButton:hover {
+        background-color: #0056b3;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        .modal-content {
+            max-width: 90%;
+        }
+    }
+</style>
+
+
+<script>
+    // Get the modal and button elements
+    const modal = document.getElementById('videoModal');
+    const playButton = document.getElementById('playButton');
+    const closeButton = document.querySelector('.close');
+    const videoPlayer = document.getElementById('videoPlayer');
+
+    // When the play button is clicked, display the modal
+    playButton.addEventListener('click', () => {
+        modal.style.display = 'block';
+    });
+
+    // When the close button is clicked or the user clicks outside the modal, hide the modal
+    closeButton.addEventListener('click', () => {
+        modal.style.display = 'none';
+        videoPlayer.pause();
+    });
+
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            videoPlayer.pause();
+        }
+    });
+</script>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--GET A QUOTE-->
+
+<!-- OUR SERVICE -->
+<section class="py-5" id="service">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mx-auto">
+                <div class="card card-body text-center border-0">
+                    <h6 class="fw-bold text-color">OUR SERVICE</h6>
+                    <h2 class="fw-bold display-6">Best Logistics Service</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row pt-4">
+            <div class="col-md-3">
+                <div class="card text-center border-0 rounded-0">
+                    <div class="card-header bg-color rounded-0 pt-4 pb-3">
+                        <h5><i class="fa-solid fa-plane"></i><span class="text-white">Air Freight</span></h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Experience the speed and efficiency of air freight with CargoLogisticsPro. We offer fast, secure, and reliable air cargo solutions to ensure your goods reach their destination on time, every time.</p>
+                        <a  class="btn border-bottom text-color" id="read-more-btn-1">Read More..</a>
+                    </div>
+                    <div class="hidden-description" id="more-description-1">
+                        <p>Embark on a journey of speed and precision with CargoLogisticsPro's Air Freight services. We're your passport to the world's skies, offering lightning-fast, secure, and dependable air cargo solutions. Our global network and cutting-edge technology guarantee on-time deliveries, competitive rates, and the peace of mind that comes with the safest and most efficient air freight services in the industry.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 rounded-0">
+                    <div class="card-header bg-color rounded-0 pt-4 pb-3">
+                        <h5><i class="fa-solid fa-ship"></i><span class="text-white">Ocean Freight</span></h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Navigate the vast seas with confidence. CargoLogisticsPro provides comprehensive ocean freight services, offering cost-effective and dependable solutions for your global shipping needs.</p>
+                        <a  class="btn border-bottom text-color" id="read-more-btn-2">Read More..</a>
+                    </div>
+                    <div class="hidden-description" id="more-description-2">
+                        <p>Set sail on a voyage of reliability and affordability with CargoLogisticsPro's Ocean Freight services. We don't just ship cargo; we navigate dreams. Our international shipping solutions are your ticket to global success, handling everything from documentation to customs clearance. Experience unparalleled transparency, trust, and savings as we sail your goods to destinations worldwide.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 rounded-0">
+                    <div class="card-header bg-color rounded-0 pt-4 pb-3">
+                        <h5><i class="fa-solid fa-truck"></i><span class="text-white">Truck Freight</span></h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Efficiency meets reliability on the road. CargoLogisticsPro's truck freight services deliver your cargo safely and promptly, providing seamless transportation solutions tailored to your requirements.</p>
+                        <a  class="btn border-bottom text-color" id="read-more-btn-3">Read More..</a>
+                    </div>
+                    <div class="hidden-description" id="more-description-3">
+                        <p>Hit the road with CargoLogisticsPro's Truck Freight services and watch your cargo move with precision, speed, and care. Our dedicated team ensures the smoothest, safest, and most efficient transportation of your goods. With real-time tracking, tailored solutions, and a commitment to excellence, we transform trucking into an art form, giving you confidence with every mile.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card text-center border-0 rounded-0">
+                    <div class="card-header bg-color rounded-0 pt-4 pb-3">
+                        <h5><i class="fa-solid fa-store"></i><span class="text-white">Cargo Storage</span></h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">Safe, secure, and convenient storage for your cargo. CargoLogisticsPro offers state-of-the-art storage facilities, ensuring your goods are protected and easily accessible whenever you need them..</p>
+                        <a  class="btn border-bottom text-color" id="read-more-btn-4">Read More..</a>
+                    </div>
+                    <div class="hidden-description" id="more-description-4">
+                        <p>Store your cargo like never before with CargoLogisticsPro's Cargo Storage solutions. Our cutting-edge facilities are more than storage; they're fortresses for your valuables. Climate-controlled, secure, and conveniently accessible, your goods are protected with unwavering dedication. Choose peace of mind – choose CargoLogisticsPro for the storage experience you deserve.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            .hidden-description {
+                display: none;
+            }
+        </style>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $("#read-more-btn-1").click(function() {
+                    $("#more-description-1").slideToggle("fast");
+                });
+
+                $("#read-more-btn-2").click(function() {
+                    $("#more-description-2").slideToggle("fast");
+                });
+
+                $("#read-more-btn-3").click(function() {
+                    $("#more-description-3").slideToggle("fast");
+                });
+
+                $("#read-more-btn-4").click(function() {
+                    $("#more-description-4").slideToggle("fast");
+                });
+            });
+        </script>
+
+    </div>
+</section>
+
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="card border-0">
+                    <div class="row ">
+                        <div class="col-md-5">
+                            <img src="{% static 'assetz/img/feature.jpg' %}" class="card-img rounded-0" alt=""/>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="card-body mt-3 pt-5">
+                                <h5 class="text-color fw-bold">WHY CHOOSE US</h5>
+                                <h3 class="fw-bold display-5">Faster, Safe and Trusted Logistics Services</h3>
+                                <p class="text-muted">Choose CargoLogisticsPro for your logistics needs because we blend experience, innovation, and a customer-centric approach. We deliver excellence, reliability, and cost-efficiency, making your cargo journey seamless and worry-free.</p>
+                                <ul class="navbar-nav">
+                                    <li><i class="fa-regular fa-circle-dot text-color"></i>  Best In Industry</li>
+                                    <li><i class="fa-regular fa-circle-dot text-color"></i>  Emergency Services</li>
+                                    <li><i class="fa-regular fa-circle-dot text-color"></i>  24/7 Customer Support</li>
+                                </ul>
+                                <a href="{% url 'accounts:login' %}" class="btn bg-color px-4 rounded-0 mt-4 text-white">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--PRICING PLAN-->
+
+
+<!--DELIVERY TEAM-->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 bg-white">
+                <div class="row text-center">
+                    <h5 class="text-color fw-bold">DELIVERY TEAM</h5>
+                    <h3 class="fw-bold display-5">Meet Our Delivery Team</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 my-2">
+                        <div class="card px-0 border-0 rounded-0">
+                                <img src="{% static 'assetz/img/team-1.jpg' %}" alt="">
+                            <card class="card-body px-0 text-center border-0 rounded-0 bg-color py-0">
+                                <div class="d-none">
+                                    <p class="h5 fw-bold">Full Name</p>
+                                    <p class="text-muted">Designation</p>
+                                </div>
+                                <div class="bg-color border-0">
+                                    <ul class="nav bg-color justify-content-center py-3 border-0 ">
+                                        <li class="me-3 ps-3"><a  class="btn-outline-dark"><i class="fa-brands  fa-facebook-f text-dark circle-icon-facebook"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-twitter text-dark circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-linkedin-in text-dark  circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-instagram text-dark  circle-icon"></i></a></li>
+                                    </ul>
+                                </div>
+                            </card>
+                        </div>
+                    </div>
+                    <div class="col-md-3 my-2">
+                        <div class="card px-0 border-0 rounded-0">
+                                <img src="{% static 'assetz/img/team-2.jpg' %}" alt="">
+                            <card class="card-body px-0 text-center border-0 rounded-0 bg-color py-0">
+                                <div class="d-none">
+                                    <p class="h5 fw-bold">Full Name</p>
+                                    <p class="text-muted">Designation</p>
+                                </div>
+                                <div class="bg-color border-0">
+                                    <ul class="nav bg-color justify-content-center py-3 border-0 ">
+                                        <li class="me-3 ps-3"><a  class="btn-outline-dark"><i class="fa-brands  fa-facebook-f text-dark circle-icon-facebook"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-twitter text-dark circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-linkedin-in text-dark  circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-instagram text-dark  circle-icon"></i></a></li>
+                                    </ul>
+                                </div>
+                            </card>
+                        </div>
+                    </div>
+                    <div class="col-md-3 my-2">
+                        <div class="card px-0 border-0 rounded-0">
+                                <img src="{% static 'assetz/img/team-3.jpg' %}" alt="">
+                            <card class="card-body px-0 text-center border-0 rounded-0 bg-color py-0">
+                                <div class="d-none">
+                                    <p class="h5 fw-bold">Full Name</p>
+                                    <p class="text-muted">Designation</p>
+                                </div>
+                                <div class="bg-color border-0">
+                                    <ul class="nav bg-color justify-content-center py-3 border-0 ">
+                                        <li class="me-3 ps-3"><a  class="btn-outline-dark"><i class="fa-brands  fa-facebook-f text-dark circle-icon-facebook"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-twitter text-dark circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-linkedin-in text-dark  circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-instagram text-dark  circle-icon"></i></a></li>
+                                    </ul>
+                                </div>
+                            </card>
+                        </div>
+                    </div>
+                    <div class="col-md-3 my-2">
+                        <div class="card px-0 border-0 rounded-0">
+                                <img src="{% static 'assetz/img/team-4.jpg' %}" alt="">
+                            <card class="card-body px-0 text-center border-0 rounded-0 bg-color py-0">
+                                <div class="d-none">
+                                    <p class="h5 fw-bold">Full Name</p>
+                                    <p class="text-muted">Designation</p>
+                                </div>
+                                <div class="bg-color border-0">
+                                    <ul class="nav bg-color justify-content-center py-3 border-0 ">
+                                        <li class="me-3 ps-3"><a  class="btn-outline-dark"><i class="fa-brands  fa-facebook-f text-dark circle-icon-facebook"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-twitter text-dark circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-linkedin-in text-dark  circle-icon"></i></a></li>
+                                        <li class="me-3 "><a ><i class="fa-brands fa-instagram text-dark  circle-icon"></i></a></li>
+                                    </ul>
+                                </div>
+                            </card>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--TESTIMONIAL-->
+
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 bg-white">
+                <div class="row text-center">
+                    <h5 class="text-color fw-bold">TESTIMONIAL</h5>
+                    <h3 class="fw-bold display-5">Our Clients Say</h3>
+                </div>
+                <div class="container">
+                    <div class="item col-md-12 pe-1">
+                        <div class="card rounded-0 border-0">
+                            <div class="card-header border-0">
+                                <div class="row p-0">
+                                    <div class="col-4 p-0" style="height:100px;width: 100px;" >
+                                        <img src="{% static 'assetz/img/testimonial-1.jpg' %}" style="height:100px;width: 100px; border-radius: 50%;" alt="">
+                                    </div>
+                                    <div class="col-6 bx-0 ">
+                                        <p class="h6 fw-semibold pt-4">John Reynolds </p>
+                                        <p class="text-muted h6 text-sm-start">-CEO of TechVision Inc</p>
+                                    </div>
+                                    <div class="col-2 bg-light">
+                                        <i class="fa fa-quote-right" style="font-size:48px;color:red; margin-top: -8px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body bg-light">
+                                <p class="text-muted fw-semibold">As the CEO of TechVision Inc., I rely on CargoLogisticsPro for flawless logistics. Their commitment to excellence and precision has significantly boosted our operations. They are the best in the business.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item col-md-12 pe-1">
+                        <div class="card rounded-0 border-0">
+                            <div class="card-header border-0">
+                                <div class="row p-0">
+                                    <div class="col-4 p-0" style="height:100px;width: 100px;" >
+                                        <img src="{% static 'assetz/img/testimonial-2.jpg' %}" style="height:100px;width: 100px; border-radius: 50%;" alt="">
+                                    </div>
+                                    <div class="col-6 bx-0 ">
+                                        <p class="h6 fw-semibold pt-4">Daniel Hughes</p>
+                                        <p class="text-muted h6 text-sm-start">-Supply Chain Manager</p>
+                                    </div>
+                                    <div class="col-2 bg-light">
+                                        <i class="fa fa-quote-right" style="font-size:48px;color:red; margin-top: -8px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body bg-light">
+                                <p class="text-muted fw-semibold">In my role as a Supply Chain Manager, I've worked with many logistics providers. CargoLogisticsPro stands out with their unwavering dedication to customer satisfaction. Their services have transformed our supply chain.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item col-md-12 pe-1">
+                        <div class="card rounded-0 border-0">
+                            <div class="card-header border-0">
+                                <div class="row p-0">
+                                    <div class="col-4 p-0" style="height:100px;width: 100px;" >
+                                        <img src="{% static 'assetz/img/testimonial-3.jpg' %}" style="height:100px;width: 100px; border-radius: 50%;" alt="">
+                                    </div>
+                                    <div class="col-6 bx-0 ">
+                                        <p class="h6 fw-semibold pt-4"> Robert Mitchell</p>
+                                        <p class="text-muted h6 text-sm-start">-International Business Owner</p>
+                                    </div>
+                                    <div class="col-2 bg-light">
+                                        <i class="fa fa-quote-right" style="font-size:48px;color:red; margin-top: -8px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body bg-light">
+                                <p class="text-muted fw-semibold">CargoLogisticsPro is my trusted partner for international shipping. Their expertise and attention to detail have saved me countless headaches and costs. I highly recommend them for seamless logistics solutions.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item col-md-12 pe-1">
+                        <div class="card rounded-0 border-0">
+                            <div class="card-header border-0">
+                                <div class="row p-0">
+                                    <div class="col-4 p-0" style="height:100px;width: 100px;" >
+                                        <img src="{% static 'assetz/img/testimonial-4.jpg' %}" style="height:100px;width: 100px; border-radius: 50%;" alt="">
+                                    </div>
+                                    <div class="col-6 bx-0 ">
+                                        <p class="h6 fw-semibold pt-4">William Foster</p>
+                                        <p class="text-muted h6 text-sm-start">-Manufacturing Manager</p>
+                                    </div>
+                                    <div class="col-2 bg-light">
+                                        <i class="fa fa-quote-right" style="font-size:48px;color:red; margin-top: -8px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body bg-light">
+                                <p class="text-muted fw-semibold">As a Manufacturing Manager, efficient logistics is crucial. CargoLogisticsPro's trucking service ensures our goods reach destinations unharmed and on time. They are the backbone of our supply chain.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item col-md-12 pe-1">
+                        <div class="card rounded-0 border-0">
+                            <div class="card-header border-0">
+                                <div class="row p-0">
+                                    <div class="col-4 p-0" style="height:100px;width: 100px;" >
+                                        <img src="{% static 'assetz/img/testimonial-7.jpg' %}" style="height:100px;width: 100px; border-radius: 50%;" alt="">
+                                    </div>
+                                    <div class="col-6 bx-0 ">
+                                        <p class="h6 fw-semibold pt-4">Richard Davis</p>
+                                        <p class="text-muted h6 text-sm-start">-Art Collector</p>
+                                    </div>
+                                    <div class="col-2 bg-light">
+                                        <i class="fa fa-quote-right" style="font-size:48px;color:red; margin-top: -8px;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body bg-light">
+                                <p class="text-muted fw-semibold">CargoLogisticsPro's storage facilities are a treasure for an art collector like me. Climate-controlled and secure, they provide peace of mind for my valuable assets. Choosing them for storage was a wise decision.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Latest From Blog -->
+
+<footer class="bg-dark" id="contact">
+    <section>
+        <div class="row py-5">
+            <div class="col-md-4 ps-5">
+                <h3 class="text-color fw-bold pb-3">Get In Touch</h3>
+                <p class="fw-bold text-white"><i class="fa fa-map-marker-alt me-2"></i>123 Street, New York, USA</p>
+                <p class="fw-bold text-white"><i class="fa fa-phone-alt me-2"></i>+012 345 67890</p>
+                <p class="fw-bold text-white"><i class="fa fa-envelope me-2"></i>support@cargologistic.online</p>
+                <div class="border-0 m-0 p-0">
+                    <ul class="nav p-0  border-0">
+                        <li class="me-3"><a href="" class="p-0"><i class="text-white fa-brands  fa-facebook-f circle-icon-b-facebook"></i></a></li>
+                        <li class="me-3"><a href="" class="p-0"><i class="text-white fa-brands fa-twitter  circle-icon-b"></i></a></li>
+                        <li class="me-3"><a href="" class="p-0"><i class="text-white fa-brands fa-linkedin-in  circle-icon-b"></i></a></li>
+                        <li class=""><a href="" class="p-0"><i class="text-white fa-brands fa-instagram  circle-icon-b"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <h3 class="text-color fw-bold pb-3"></h3>
+
+            </div>
+<div class="col-md-5 pe-5">
+    <h3 class="text-color fw-bold pb-3">Newsletter</h3>
+    <p class="fw-bold text-white pt-0">
+        Get exclusive insights, offers, and logistics updates.
+        Subscribe to CargoLogisticsPro's newsletter today for industry expertise delivered to your inbox.
+    </p>
+    <form id="emailForm"> <!-- Add ID to the form -->
+        <div class="input-group">
+            <input
+                type="email" 
+                id="email" 
+                class="form-control form-control-lg rounded-0"
+                placeholder="Enter your email"
+                required 
+            >
+            <button type="submit" class="btn text-white bg-color rounded-0">SIGN UP</button> <!-- Change type to "submit" -->
+        </div>
+    </form>
+</div>
+
+<script src="https://smtpjs.com/v3/smtp.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Get the form and email input element
+        const emailForm = document.getElementById("emailForm");
+        const emailInput = document.getElementById("email");
+
+        // Listen for form submission
+        emailForm.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const email = emailInput.value;
+
+            // Validate email
+            if (validateEmail(email)) {
+                try {
+                    // Send email
+                    await sendEmail(email);
+                    showAlert("Email sent successfully!", "success");
+                    emailForm.reset(); // Clear the form after successful submission
+                } catch (error) {
+                    showAlert("Failed to send email. Please try again later.", "error");
+                }
+            } else {
+                showAlert("Please enter a valid email address.", "error");
+            }
+        });
+
+        // Validate email using a regular expression
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Send email using Email.send
+        async function sendEmail(email) {
+            const subject = "New Email Subscriber";
+            const body = `A new email subscriber: ${email}`;
+
+            return await Email.send({
+                SecureToken: "75856964-401b-4cc4-852f-6f1b82f1636a",
+                To: "support@cargologistic.online",
+                From: "info@cargologistic.online",
+                Subject: subject,
+                Body: body
+            });
+        }
+
+        // Display alert messages
+        function showAlert(message, type) {
+            const alertDiv = document.createElement("div");
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            const formWrap = document.getElementById("emailForm"); // Use the form element to append the alert
+            formWrap.appendChild(alertDiv);
+
+            // Remove alert after 3 seconds
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 3000);
+        }
+    });
+</script>
+
+
+        </div>
+    </section>
+    
+    <section>
+        
+        <div class="row pb-5">
+            <hr/>
+            <div class="col-md-7 px-5">
+                <span class="float-start text-white ">© 2023 </span><span class="text-color float-start">CargoLogistics Pro.</span><span class="fw-bold text-white float-start"> All Rights Reserved.  </span>
+            </div>
+
+        </div>
+    </section>
+</footer>
+
+<a href="#" class="btn btn-lg bg-color back-to-top" style="display: inline;"><i class="fa fa-angle-double-up"></i></a>
+
+<script src="{% static 'assetz/js/jquery-3.6.1.js' %}"></script>
+<script src="{% static 'assetz/js/bootstrap.bundle.js' %}"></script>
+<script src="{% static 'assetz/js/owl.carousel.min.js' %}"></script>
+
+<script>
+    $(document).ready(function() {
+        // $(".owl-carousel").owlCarousel();
+    $("#owl-demo").owlCarousel({
+
+    autoPlay: 2000, //Set AutoPlay to 3 seconds
+    // //Autoplay
+    // autoPlay : true,
+    // goToFirst : true,
+    // goToFirstSpeed : 1000,
+
+   
+    items : 3,
+    itemsDesktop : [1199,3],
+    itemsDesktopSmall : [979,3]
+
+ });
+
+});
+</script>
+
+</body>
+</html>
